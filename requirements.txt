@@ -1,0 +1,4 @@
+ftfy==6.1.1
+regex
+tqdm
+learn2learn==0.2.0
