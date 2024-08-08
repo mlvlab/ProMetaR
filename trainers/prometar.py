@@ -138,13 +138,13 @@ class VNet(nn.Module):
         if gradients2 == None:
             input_gradients = torch.cat((gradients1, gradients3), 0)
             gamma_t = torch.sigmoid(linear_gamma(input_gradients.reshape(1,-1))).repeat_interleave(8,-1).reshape(d_1, d_2)
-            changed_gradients = gamma_t*(gradients3)*2
+            changed_gradients = gamma_t*gradients3
             changed_gradients = gradients1 + changed_gradients
             
         elif gradients3 == None:
             input_gradients = torch.cat((gradients1, gradients2), 0)
             gamma_t = torch.sigmoid(linear_gamma(input_gradients.reshape(1,-1))).repeat_interleave(8,-1).reshape(d_1, d_2)
-            changed_gradients = gamma_t*(gradients2)*2
+            changed_gradients = gamma_t*gradients2
             changed_gradients = gradients1 + changed_gradients
         else:
             raise NotImplemented
@@ -415,9 +415,9 @@ class ProMetaR(TrainerX):
         loss_ce, normalized_text_features, zs_clip_text_embeddings, zs_image_embedd, image_ft, \
         zero_shot_logits, logits = model(image, label, mixup=False)
         rag_text = F.l1_loss(normalized_text_features, zs_clip_text_embeddings.cuda(),
-                                    reduction='mean') * 25
+                                    reduction='mean') * 50
         rag_image = F.l1_loss(image_ft, zs_image_embedd.cuda(),
-                                    reduction='mean') * 10
+                                    reduction='mean') * 20
 
         optim.zero_grad()
         model = gradient_update(model, loss_ce, rag_text, rag_image, grad_func=self.vnet)
@@ -443,9 +443,9 @@ class ProMetaR(TrainerX):
             zero_shot_logits, logits = task_model(x_sup, y_sup, mixup=False)
             
             adaptation_rag_text = F.l1_loss(normalized_text_features, zs_clip_text_embeddings.cuda(),
-                                        reduction='mean') * 25
+                                        reduction='mean') * 50
             adaptation_rag_image = F.l1_loss(image_ft, zs_image_embedd.cuda(),
-                                        reduction='mean') * 10
+                                        reduction='mean') * 20
             
             task_model.adapt(adaptation_loss_ce, adaptation_rag_text, adaptation_rag_image, allow_nograd=True, grad_func=self.vnet, allow_unused=True)
             loss2_ce, normalized_text_features, zs_clip_text_embeddings, zs_image_embedd, image_ft, \
