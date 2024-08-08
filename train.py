@@ -85,7 +85,7 @@ def extend_cfg(cfg):
     """
     from yacs.config import CfgNode as CN
 
-    # Config for PromptSRC
+    # Config for ProMetaR
     cfg.TRAINER.PROMETAR = CN()
     cfg.TRAINER.PROMETAR.N_CTX_VISION = 4  # number of context vectors at the vision branch
     cfg.TRAINER.PROMETAR.N_CTX_TEXT = 4  # number of context vectors at the language branch
