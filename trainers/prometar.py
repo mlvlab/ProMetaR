@@ -148,8 +148,6 @@ class VNet(nn.Module):
             changed_gradients = gradients1 + changed_gradients
         else:
             raise NotImplemented
-        
-        # beta_t = torch.sigmoid(linear_beta(gradients.reshape(1, -1))).reshape(d_1, d_2)
 
         return changed_gradients
 
@@ -467,30 +465,6 @@ class ProMetaR(TrainerX):
             self.update_lr()
             
         return loss_summary
-
-    def state_dict_weighting(self, main_dict, weightage, prompt_only=False):
-        # Average all parameters
-        updated_dict = copy.deepcopy(main_dict)
-        if not prompt_only:
-            for key in main_dict:
-                updated_dict[key] = main_dict[key] * weightage
-            return updated_dict
-        else:
-            return main_dict * weightage
-
-    def state_dict_add(self, dict1, dict2, prompt_only=False):
-        # Average all parameters
-        if not prompt_only:
-            modified_dict = dict2
-            for key in dict1:
-                modified_dict[key] = (modified_dict[key] + dict1[key])
-            return modified_dict
-        else:
-            return dict1 + dict2
-
-    def get_gauss(self, mu, sigma):
-        gauss = lambda x: (1 / (sigma * np.sqrt(2 * np.pi))) * np.exp(-0.5 * ((x - mu) / sigma) ** 2)
-        return gauss
 
     def parse_batch_train(self, batch):
         input = batch["img"]
