@@ -20,21 +20,21 @@ Run the commands below to train ProMetaR on eurosat.
 
 # seed=1
 # trains and evaluates on base classes
-bash scripts/prometar/base2new_train.sh eurosat 1
+bash scripts/prometar/base2new_train.sh eurosat 1 0
 # evaluates on novel classes
-bash scripts/prometar/base2new_test.sh eurosat 1
+bash scripts/prometar/base2new_test.sh eurosat 1 0 new
 
 # seed=2
 # trains and evaluates on base classes
-bash scripts/prometar/base2new_train.sh eurosat 2
+bash scripts/prometar/base2new_train.sh eurosat 2 0
 # evaluates on novel classes
-bash scripts/prometar/base2new_test.sh eurosat 2
+bash scripts/prometar/base2new_test.sh eurosat 2 0 new
 
 # seed=3
 # trains and evaluates on base classes
-bash scripts/prometar/base2new_train.sh eurosat 3
+bash scripts/prometar/base2new_train.sh eurosat 3 0
 # evaluates on novel classes
-bash scripts/prometar/base2new_test.sh eurosat 3
+bash scripts/prometar/base2new_test.sh eurosat 3 0 new
 ```
 
 #### Averaging results over 3 seeds: 
